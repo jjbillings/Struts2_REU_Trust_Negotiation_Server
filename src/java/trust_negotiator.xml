@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    
+    <package name="TrustNegotiationPackage" namespace="/TrustNegotiator" extends="json-default">
+        
+        <action name="InitiateConnection" class="TrustNegotiationPackage.TrustNegotiatorAction" method="removePreviousCerts">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/CAModule</param>
+                <param name="actionName">RemovePreviousCerts</param>
+            </result>
+        </action>
+        
+        <action name="BeginTrustNegotiation" class="TrustNegotiationPackage.TrustNegotiatorAction">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegIDCertsVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="verifiedIDCerts">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegIDCertsUploaded" class="TrustNegotiationPackage.TrustNegotiatorAction" method="idCertsUploaded">
+            <result name="success" type="json"/>
+        </action>
+                        
+        <action name="TrustNegACsVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="verifiedACs">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegACsUploaded" class="TrustNegotiationPackage.TrustNegotiatorAction" method="acsUploaded">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegIDCertsNotVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="failedToVerifyIDCerts">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegACsNotVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="failedToVerifyACs">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegAuthorizedAccess" class="TrustNegotiationPackage.TrustNegotiatorAction" method="authorizedAccess">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegAccessDenied" class="TrustNegotiationPackage.TrustNegotiatorAction" method="accessDenied">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegCheckDownload" class="TrustNegotiationPackage.FileDownloadNegotiatorAction" method="checkDownload">
+            <result name="success" type="json">
+                <param name="excludeProperties">servletReq</param>
+            </result>
+            <result name="NONE" type="json">
+                <param name="excludeProperties">servletReq</param>
+            </result>
+        </action>
+        
+        <action name="TrustNegNeedCSR" class="TrustNegotiationPackage.TrustNegotiatorAction" method="requestCSR">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegCSRSigned" class="TrustNegotiationPackage.TrustNegotiatorAction" method="csrSigned">
+            <result name="success" type="json"/>
+        </action>
+        
+        <action name="TrustNegACGenerated" class="TrustNegotiationPackage.TrustNegotiatorAction" method="acGenerated">
+            <result name="success" type="json"/>
+        </action>
+    </package>
+    
+    <package name="FileTransferPackage" namespace="/FileTransfer" extends="struts-default">
+        
+        <action name="UploadIDCerts" class="FileTransferPackage.MultiFileUpload" method="uploadIDCerts">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegIDCertsUploaded</param>
+            </result>
+            <result name="failure">GeneralFailurePage.jsp</result>
+        </action>
+        
+        <action name="UploadChains" class="FileTransferPackage.MultiFileUpload" method="uploadCertChains">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success" type="redirectAction">
+                <param name="namespace">/CAModule</param>
+                <param name="actionName">VerifyIDCerts</param>
+            </result>
+            <result name="failure">GeneralFailurePage.jsp</result>
+        </action>
+        
+        <action name="UploadACs" class="FileTransferPackage.MultiFileUpload" method="uploadACs">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegACsUploaded</param>
+            </result>
+            <result name="failure">GeneralFailurePage.jsp</result>
+        </action>
+        
+        <action name="UploadACChains" class="FileTransferPackage.MultiFileUpload" method="uploadACChains">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success" type="redirectAction">
+                <param name="namespace">/AAModule</param>
+                <param name="actionName">VerifyACs</param>
+            </result>
+            <result name="failure">GeneralFailurePage.jsp</result>
+        </action>
+        
+        <action name="UploadCSR" class="FileTransferPackage.MultiFileUpload" method="uploadCSR">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success" type="redirectAction">
+                <param name="namespace">/CAModule</param>
+                <param name="actionName">SignCSR</param>
+            </result>
+            <result name="failure">GeneralFailurePage.jsp</result>
+        </action>
+        
+        <action name="DownloadIDCerts" class="FileTransferPackage.FileDownload" method="downloadIDCert">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">stream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${filename}"</param>
+            </result>
+            
+        </action>
+        
+        <action name="DownloadACs" class="FileTransferPackage.FileDownload" method="downloadAC">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">stream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${filename}"</param>
+            </result>
+        </action>
+        
+        <action name="DownloadEMR" class="FileTransferPackage.FileDownload" method="downloadEMR">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">stream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${filename}"</param>
+            </result>
+        </action>
+        
+        <action name="DownloadChain" class="FileTransferPackage.FileDownload" method="downloadChain">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">stream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${filename}"</param>
+            </result>
+        </action>
+        
+        <action name="DownloadACChain" class="FileTransferPackage.FileDownload" method="downloadACChain">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">stream</param>
+                <param name="bufferSize">1024</param>
+                <param name="contentDisposition">attachment;filename="${filename}"</param>
+            </result>
+        </action>
+        
+    </package>
+    
+    <package name="CAModulePackage" namespace="/CAModule" extends="struts-default">
+        
+        <action name="RemovePreviousCerts" class="CAModulePackage.CAAction" method="removePreviousCerts">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">BeginTrustNegotiation</param>
+            </result>
+        </action>
+        
+        <action name="VerifyIDCerts" class="CAModulePackage.CAAction" method="verifyIDCerts">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegIDCertsVerified</param>
+            </result>
+            <result name="failure" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegIDCertsNotVerified</param>
+            </result>
+        </action>
+        
+        <!-- I could not think of a good name for this action... -->
+        <action name="CheckForGoodID" class="CAModulePackage.CAAction" method="checkForGoodID">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/AAModule</param>
+                <param name="actionName">GenerateACs</param>
+            </result>
+            <result name="failure" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegNeedCSR</param>
+            </result>
+        </action>
+        
+        <action name="SignCSR" class="CAModulePackage.CAAction" method="signCSR">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/AAModule</param>
+                <param name="actionName">GenerateACs</param>
+            </result>
+        </action>
+    </package>
+    
+    <package name="AAModulePackage" namespace="/AAModule" extends="struts-default">
+
+        <action name="GenerateACs" class="AAModulePackage.AAAction" method="generateACs">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegCheckDownload</param>
+            </result>
+        </action>
+        
+        <action name="VerifyACs" class="AAModulePackage.AAAction" method="verifyACs">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/CAModule</param>
+                <param name="actionName">CheckForGoodID</param>
+            </result>
+            <result name="failure" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">TrustNegACsNotVerified</param>
+            </result>
+        </action>
+    </package>
+    
+    <package name="DataAccessModulePackage" namespace="/DataAccessModule" extends="struts-default">
+        <!--Figure out how to authorize access to the data... -->
+    </package>
+</struts>

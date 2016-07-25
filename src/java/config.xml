@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    
+    <package name="ConfigPackage" namespace="/Config" extends="struts-default">
+        <action name="ResetCredentials" class="ConfigurationPackage.ConfigAction" method="resetCredentials">
+            <result name="success">ResetCredentialSuccessPage.jsp</result>
+        </action>
+        
+         <action name="UploadRootCredentials" class="FileTransferPackage.ConfigFileUpload" method="uploadRootCACredentials">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success">ResetCredentialSuccessPage.jsp</result>
+        </action>
+        
+        <action name="UploadRootAACredentials" class="FileTransferPackage.ConfigFileUpload" method="uploadRootAACredentials">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success">ResetCredentialSuccessPage.jsp</result>
+        </action>
+        
+        <action name="UploadTrustedACIssuerCert" class="FileTransferPackage.ConfigFileUpload" method="uploadTrustedACIssuerCert">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">2097152</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            
+            <result name="success">ResetCredentialSuccessPage.jsp</result>
+        </action>
+        
+        <action name="SetupEverything" class="ConfigurationPackage.ConfigAction" method="setupEverything">
+            <result name="success">ResetCredentialSuccessPage.jsp</result>
+        </action>
+        
+        <action name="ExamineCerts" class="ConfigurationPackage.ConfigAction" method="examineCerts">
+            <result name="success">CertificateExaminationPage.jsp</result>
+        </action>
+        
+        <action name="SetACFields" class="ConfigurationPackage.ConfigAction" method="setACFields">
+            <result name="success">ACFieldPage.jsp</result>
+        </action>
+    </package>
+</struts>
+
