@@ -39,5 +39,5 @@ keytool -export -alias my_alias -file test_cert.crt -keystore my_keystore.jks
 Enter your password and a certificate will be generated inside your current directory. This certificate is a copy of the one contained in the keystore. Give this copy to any device that you want to connect to the server over secure connection. Keytool is very useful, especially for examining certificates. A bunch of useful Keytool commands may be found [HERE](https://www.sslshopper.com/article-most-common-java-keytool-keystore-commands.html)
 
 ###Configure HTTPS/SSl
-
+Time to configure our Tomcat server to receive secure connections. 
 ###Deploy Application
