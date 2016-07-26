@@ -159,12 +159,30 @@ public class ACHelper {
             }
             wrapper.setRecordTypes(arr);
         }
+        
+        for(Attribute a : ac.getAttributes(NewAttributeIdentifiers.record_subject))
+        {
+            ASN1Set set = a.getAttrValues();
+            String s = DERGeneralString.getInstance(set.getObjectAt(0)).getString();
+            wrapper.setRecord_subject(s);
+        }
+
+        for (Attribute a : ac.getAttributes(NewAttributeIdentifiers.actions_taken))
+        {
+            ASN1Set set = a.getAttrValues();
+            String[] arr = new String[set.size()];
+            for (int i = 0; i < set.size(); ++i)
+            {
+                arr[i] = DERGeneralString.getInstance(set.getObjectAt(i)).getString();
+            }
+            wrapper.setActions_taken(arr);
+        }
         return wrapper;
     }
 
     
     public static X509AttributeCertificateHolder generateAttributeCertificate(X509CertificateHolder issuerCert, X509CertificateHolder associatedCert, PrivateKey pk,
-                String role, String record_id, String[] record_types)
+                String role, String record_id, String record_subject, String[] record_types, String[] actions_taken)
     {
         //Set up the validity period.
         Date startDate = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
@@ -190,8 +208,10 @@ public class ACHelper {
         
         builder.addAttribute(NewAttributeIdentifiers.role, new DERGeneralString(role));
         builder.addAttribute(NewAttributeIdentifiers.record_id, new DERGeneralString(record_id));
+        builder.addAttribute(NewAttributeIdentifiers.record_subject, new DERGeneralString(record_subject));
         builder.addAttribute(NewAttributeIdentifiers.time_stamp, new DERGeneralizedTime(new Date()));
 
+        //record_types
         ArrayList<ASN1Encodable> rts = new ArrayList();
         for(String s : record_types)
         {
@@ -199,9 +219,18 @@ public class ACHelper {
         }
         ASN1Encodable[] recTypes = rts.toArray(new DERGeneralString[rts.size()]);
         
-        //ASN1Encodable[] recTypes = {new DERGeneralString("vaccination"), new DERGeneralString("medication_history")};
         builder.addAttribute(NewAttributeIdentifiers.record_type, recTypes);
+        
+        //actions_taken
+        ArrayList<ASN1Encodable> acts = new ArrayList();
+        for(String s : actions_taken)
+        {
+            acts.add(new DERGeneralString(s));
+        }
+        ASN1Encodable[] actionsTaken = acts.toArray(new DERGeneralString[acts.size()]);
+        builder.addAttribute(NewAttributeIdentifiers.actions_taken, actionsTaken);
 
+        //Build the certificate
         X509AttributeCertificateHolder attrCert = null;
         try {
             //builds the attribute certificate, and signs it with the owner's private key.

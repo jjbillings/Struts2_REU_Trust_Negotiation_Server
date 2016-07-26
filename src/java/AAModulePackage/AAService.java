@@ -408,9 +408,11 @@ public class AAService {
         //temp values
         String role = "psychiatrist";
         String rid = "LM54R5T7P2";
+        String rsubj = "STUDENT4200";
         String[] recTypes = {"medication_history","psychiatric_notes"};
+        String[] ractions = {"add_symptom", "track_instructions"};
         
-        X509AttributeCertificateHolder newAC = ACHelper.generateAttributeCertificate(aaIDCert, ownerCert, aaKeys.getPrivate(), role, rid, recTypes);
+        X509AttributeCertificateHolder newAC = ACHelper.generateAttributeCertificate(aaIDCert, ownerCert, aaKeys.getPrivate(), role, rid, rsubj, recTypes, ractions);
         //X509AttributeCertificateHolder newAC = ACHelper.generateAttributeCertificate(aaIDCert, ownerCert, aaKeys.getPrivate());
         AttributeCertificateWrapper wrappedAC = ACHelper.extractAttributes(newAC);
         
@@ -449,14 +451,33 @@ public class AAService {
         
         String role = fields.get(0);
         String rid = fields.get(1);
+        String rsubj = fields.get(2);
         
-        String[] recTypes = new String[fields.size()-2];
-        for(int i = 2; i < fields.size(); ++i)
+        ArrayList<String> rts = new ArrayList();
+        ArrayList<String> acts = new ArrayList();
+        String temp = "";
+        int k = -1;
+        for(int i = 3; i < fields.size(); ++i)
         {
-            recTypes[i-2] = fields.get(i);
+            temp = fields.get(i);
+            if(temp.equals("acActionsTaken"))
+            {
+                k = i+1;
+                break;
+            }
+            rts.add(temp);
         }
         
-        X509AttributeCertificateHolder newAC = ACHelper.generateAttributeCertificate(aaIDCert, ownerCert, aaKeys.getPrivate(), role, rid, recTypes);
+        for(; k < fields.size(); ++k)
+        {
+            acts.add(fields.get(k));
+        }
+        
+        String[] recTypes = rts.toArray(new String[rts.size()]);
+        String[] actions = acts.toArray(new String[acts.size()]);
+        
+        
+        X509AttributeCertificateHolder newAC = ACHelper.generateAttributeCertificate(aaIDCert, ownerCert, aaKeys.getPrivate(), role, rid, rsubj, recTypes, actions);
         AttributeCertificateWrapper wrappedAC = ACHelper.extractAttributes(newAC);
         
         //Save AC to the generated AC directory

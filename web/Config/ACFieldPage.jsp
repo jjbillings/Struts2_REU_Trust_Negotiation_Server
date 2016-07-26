@@ -17,7 +17,9 @@
         <textarea>
             Role: ${acRole}
             Record ID: ${acID}
+            Record Subject: ${acSubj}
             Record Types: ${acTypes}
+            Actions Taken: ${acActionsTaken}
         </textarea>
     </body>
 </html>

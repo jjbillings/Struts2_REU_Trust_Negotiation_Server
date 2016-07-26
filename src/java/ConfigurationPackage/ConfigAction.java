@@ -30,7 +30,7 @@ public class ConfigAction extends ActionSupport implements ServletRequestAware{
     private String CACN;
     private String AACN;
     private String certInfo;
-    private String acRole, acID, acTypes;
+    private String acRole, acID, acTypes, acSubj, acActionsTaken;
     private HttpServletRequest servletReq;
     
     public String execute()
@@ -60,7 +60,10 @@ public class ConfigAction extends ActionSupport implements ServletRequestAware{
             PrintWriter writer = new PrintWriter(new FileWriter(path+"/ACFields/ac.txt"));
             writer.write(acRole + ", ");
             writer.write(acID + ", ");
-            writer.write(acTypes);
+            writer.write(getAcSubj() + ", ");
+            writer.write(acTypes + ", ");
+            writer.write("acActionsTaken, ");
+            writer.write(getAcActionsTaken());
             writer.close();
         } catch (IOException ex) {
             Logger.getLogger(ConfigAction.class.getName()).log(Level.SEVERE, null, ex);
@@ -212,6 +215,34 @@ public class ConfigAction extends ActionSupport implements ServletRequestAware{
      */
     public void setAcTypes(String acTypes) {
         this.acTypes = acTypes;
+    }
+
+    /**
+     * @return the acSubj
+     */
+    public String getAcSubj() {
+        return acSubj;
+    }
+
+    /**
+     * @param acSubj the acSubj to set
+     */
+    public void setAcSubj(String acSubj) {
+        this.acSubj = acSubj;
+    }
+
+    /**
+     * @return the acActionsTaken
+     */
+    public String getAcActionsTaken() {
+        return acActionsTaken;
+    }
+
+    /**
+     * @param acActionsTaken the acActionsTaken to set
+     */
+    public void setAcActionsTaken(String acActionsTaken) {
+        this.acActionsTaken = acActionsTaken;
     }
 
 }

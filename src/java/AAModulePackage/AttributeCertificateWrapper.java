@@ -20,8 +20,10 @@ public class AttributeCertificateWrapper {
     private X509AttributeCertificateHolder AC;
     private String role;
     private String record_id;
+    private String record_subject;
     private Time time_stamp;
     private String[] record_types;
+    private String[] actions_taken;
     private String certFileName;
 
     public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String r, String rid, Time t, String[] rts)
@@ -41,6 +43,18 @@ public class AttributeCertificateWrapper {
         time_stamp = t;
         record_types = rts;
         certFileName = fn;
+    }
+    
+    public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String r, String rid, Time t, String[] rts, String fn, String[] actions, String subj)
+    {
+        AC = ac;
+        role = r;
+        record_id = rid;
+        time_stamp = t;
+        record_types = rts;
+        certFileName = fn;
+        this.record_subject = subj;
+        this.actions_taken = actions;
     }
 
     public AttributeCertificateWrapper(X509AttributeCertificateHolder ac)
@@ -112,13 +126,18 @@ public class AttributeCertificateWrapper {
 
     public String[] getAttributes()
     {
-        String[] s = new String[3+record_types.length];
+        String[] s = new String[4+record_types.length + actions_taken.length];
         s[0] = role;
         s[1] = record_id;
-        s[2] = time_stamp.getDate().toString();
-        for(int i = 0; i < record_types.length; ++i)
+        s[2] = record_subject;
+        s[3] = time_stamp.getDate().toString();
+        for(int i = 4; i < record_types.length; ++i)
         {
-            s[i+3] = record_types[i];
+            s[i] = record_types[i];
+        }
+        for(int i = 4 + record_types.length; i < actions_taken.length; ++i)
+        {
+            s[i] = actions_taken[i];
         }
         return s;
     }
@@ -138,7 +157,35 @@ public class AttributeCertificateWrapper {
 
     public String toString()
     {
-        return "Role: " + role + ", Record Id: " + record_id; //TODO: make it better.
+        return "Role: " + role + ", Record Id: " + record_id + ", Record Subject: " + record_subject; //TODO: make it better.
+    }
+
+    /**
+     * @return the record_subject
+     */
+    public String getRecord_subject() {
+        return record_subject;
+    }
+
+    /**
+     * @param record_subject the record_subject to set
+     */
+    public void setRecord_subject(String record_subject) {
+        this.record_subject = record_subject;
+    }
+
+    /**
+     * @return the actions_taken
+     */
+    public String[] getActions_taken() {
+        return actions_taken;
+    }
+
+    /**
+     * @param actions_taken the actions_taken to set
+     */
+    public void setActions_taken(String[] actions_taken) {
+        this.actions_taken = actions_taken;
     }
 }
 

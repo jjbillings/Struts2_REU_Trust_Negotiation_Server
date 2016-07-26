@@ -58,8 +58,12 @@
                         <input type="text" name="acRole"/><br/>
                         <label for="acID">AC Record ID</label><br/>
                         <input type="text" name="acID"/>
+                        <label for="acID">AC Record Subject</label><br/>
+                        <input type="text" name="acSubj"/>
                         <label for="acTypes">Comma Separated Record Types</label><br/>
                         <input type="text" name="acTypes"/>
+                        <label for="acTypes">Comma Separated Actions Taken</label><br/>
+                        <input type="text" name="acActionsTaken"/>
                         <s:submit>Set Fields</s:submit>
                     </s:form>
                 </td>

@@ -19,4 +19,8 @@ public class NewAttributeIdentifiers implements X509AttributeIdentifiers {
     public static final ASN1ObjectIdentifier time_stamp = new ASN1ObjectIdentifier("1.2.3.3");
 
     public static final ASN1ObjectIdentifier record_id = new ASN1ObjectIdentifier("1.2.3.4");
+    
+    public static final ASN1ObjectIdentifier record_subject = new ASN1ObjectIdentifier("1.2.3.5");
+    
+    public static final ASN1ObjectIdentifier actions_taken = new ASN1ObjectIdentifier("1.2.3.6");
 }
