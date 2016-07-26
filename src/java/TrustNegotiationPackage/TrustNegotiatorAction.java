@@ -47,7 +47,6 @@ public class TrustNegotiatorAction extends ActionSupport{
     
     public String removePreviousCerts()
     {
-        System.out.println("TRUSTNEGOTIATORACTION REMOVE PREVIOUS CERTS");
         return SUCCESS;
     }
             

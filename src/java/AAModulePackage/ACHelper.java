@@ -120,7 +120,6 @@ public class ACHelper {
     /**
      * This method takes in an AC and wraps it up in the wrapper class.
      * @param ac - X509AttributeCertificateHold that we want to wrap.
-     * @param fileName - name of the file where "ac" is stored.
      * @return wrapped up AC.
      */
     public static AttributeCertificateWrapper extractAttributes(X509AttributeCertificateHolder ac)
@@ -139,7 +138,6 @@ public class ACHelper {
             ASN1Set set =  a.getAttrValues();
             String s = DERGeneralString.getInstance(set.getObjectAt(0)).getString();
             wrapper.setRecordId(s);
-            wrapper.setCertFileName(s + ".pem");
         }
 
         for(Attribute a : ac.getAttributes(NewAttributeIdentifiers.time_stamp))

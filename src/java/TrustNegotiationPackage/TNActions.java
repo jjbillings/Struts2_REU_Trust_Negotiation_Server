@@ -29,5 +29,13 @@ public class TNActions {
   public static final String DOWNLOAD_ACTIONS = "downloadActions";                
   public static final String DOWNLOAD_URLS = "downloadURLs";                      
   public static final String ACTION = "action";                                   
-  public static final String NEXT = "next";                                       
+  public static final String NEXT = "next";  
+  public static final String ERROR = "error";
+
+  
+  public static final String AC = "ac";
+  public static final String AC_CHAIN = "ac_chain";
+  public static final String CHAIN = "chain";
+  public static final String ID_CERT = "id_cert";
+  public static final String EMR = "emr";
 }

@@ -24,7 +24,6 @@ public class AttributeCertificateWrapper {
     private Time time_stamp;
     private String[] record_types;
     private String[] actions_taken;
-    private String certFileName;
 
     public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String r, String rid, Time t, String[] rts)
     {
@@ -34,25 +33,14 @@ public class AttributeCertificateWrapper {
         time_stamp = t;
         record_types = rts;
     }
-
-    public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String r, String rid, Time t, String[] rts, String fn)
-    {
-        AC = ac;
-        role = r;
-        record_id = rid;
-        time_stamp = t;
-        record_types = rts;
-        certFileName = fn;
-    }
     
-    public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String r, String rid, Time t, String[] rts, String fn, String[] actions, String subj)
+    public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String r, String rid, Time t, String[] rts, String[] actions, String subj)
     {
         AC = ac;
         role = r;
         record_id = rid;
         time_stamp = t;
         record_types = rts;
-        certFileName = fn;
         this.record_subject = subj;
         this.actions_taken = actions;
     }
@@ -61,13 +49,6 @@ public class AttributeCertificateWrapper {
     {
         AC = ac;
     }
-
-    public AttributeCertificateWrapper(X509AttributeCertificateHolder ac, String fn)
-    {
-        AC = ac;
-        certFileName = fn;
-    }
-
 
     public void setRecordId(String r)
     {
@@ -87,11 +68,6 @@ public class AttributeCertificateWrapper {
     public void setRecordTypes(String[] r)
     {
         record_types = r.clone();
-    }
-
-    public void setCertFileName(String fn)
-    {
-        certFileName = fn;
     }
 
     public X509AttributeCertificateHolder getAC()
@@ -117,11 +93,6 @@ public class AttributeCertificateWrapper {
     public String[] getRecordTypes()
     {
         return record_types;
-    }
-
-    public String getCertFileName()
-    {
-        return certFileName;
     }
 
     public String[] getAttributes()
