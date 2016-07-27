@@ -185,16 +185,14 @@ public class FileDownload extends ActionSupport implements ServletRequestAware{
     }
     
     public String downloadEMR()
-    {
-        //TODO: Functionality.
-        
+    {        
         System.out.println("Client downloading EMR");
         //TODO: Put this wherever we get the EMR and save it to the directory.
         //As it is, if the dir doesn't exist, there's definitely nothing to download...
         File dir  = new File(servletReq.getSession().getServletContext().getRealPath("/") + "/EMRDownload");
         if(!dir.exists())
         {
-            dir.mkdir();
+            return "failure";
         }
         File[] files = dir.listFiles();
         
@@ -209,6 +207,7 @@ public class FileDownload extends ActionSupport implements ServletRequestAware{
                 stream = new FileInputStream(f);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(FileDownload.class.getName()).log(Level.SEVERE, null, ex);
+                return "failure";
             }
             f.delete();
         }

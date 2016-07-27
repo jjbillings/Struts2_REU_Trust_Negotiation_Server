@@ -5,6 +5,7 @@
  */
 package AAModulePackage;
 
+import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.Time;
 import org.bouncycastle.cert.X509AttributeCertificateHolder;
 
@@ -48,6 +49,12 @@ public class AttributeCertificateWrapper {
     public AttributeCertificateWrapper(X509AttributeCertificateHolder ac)
     {
         AC = ac;
+    }
+    
+    public String getAc_issuer()
+    {
+        X500Name[] names = this.AC.getHolder().getIssuer();
+        return names[0].toString();
     }
 
     public void setRecordId(String r)

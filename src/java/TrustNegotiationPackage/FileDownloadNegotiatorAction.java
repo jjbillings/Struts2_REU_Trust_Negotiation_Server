@@ -91,7 +91,7 @@ public class FileDownloadNegotiatorAction extends ActionSupport implements Servl
         
         dir = new File(basePath + "/EMRDownload");
         files = dir.listFiles();
-        if(files.length > 1)
+        if(files.length >= 1)
         {
             System.out.println("The client should download EMR...");
             tempActions.add(TNActions.DOWNLOAD_EMR);

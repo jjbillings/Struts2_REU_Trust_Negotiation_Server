@@ -34,7 +34,8 @@ public class AAService {
     private String serverPath, pathToUploadedCerts, pathToUploadedIDCerts,
                    pathToUploadedACs, pathToAA, pathToRootAACert, pathToRootAAKeys,
                    pathToAAKeystore, pathToAACerts, pathToGeneratedCerts,
-                   pathToGoodIDCert, pathToGeneratedACs, pathToTrustedIssuerCerts;
+                   pathToGoodIDCert, pathToGeneratedACs,
+                   pathToTrustedIssuerCerts, pathToACFields;
     
     private KeyPair aaKeys,rootAAKeys;
     private X509CertificateHolder rootAACert,aaIDCert;
@@ -150,6 +151,14 @@ public class AAService {
         if(!f.exists())
         {
             System.out.println("CREATING GeneratedACs FOLDER");
+            f.mkdir();
+        }
+        
+        pathToACFields = pathToAA + "/ACFields";
+        f = new File(pathToACFields);
+        if(!f.exists())
+        {
+            System.out.println("CREATING ACFields FOLDER");
             f.mkdir();
         }
     }
@@ -437,7 +446,7 @@ public class AAService {
      */
     public void generateAC(String path)
     {
-        File acFile = new File(path + "/ACFields/ac.txt");
+        File acFile = new File(pathToACFields + "/ac.txt");
         if(!acFile.exists())
         {
             generateAC();
@@ -575,7 +584,6 @@ public class AAService {
             fields.add(fReader.nextLine());
         }
         List<String> tempTypes = Arrays.asList(fields.get(0).split("\\s*,\\s*"));
-        acFile.delete();
         return tempTypes;
         
     }

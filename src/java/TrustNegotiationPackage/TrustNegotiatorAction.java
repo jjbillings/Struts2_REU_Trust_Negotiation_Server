@@ -159,7 +159,7 @@ public class TrustNegotiatorAction extends ActionSupport{
         
         System.out.println("Telling client to check the downloads");
         setAction(TNActions.CHECK_DOWNLOAD);
-        setNext("https://" + ip + ":8443/Struts2_REU_Trust_Negotiation_Server/TrustNegotiator/TrustNegCheckDownload.action");
+        setNext("https://" + ip + ":8443/Struts2_REU_Trust_Negotiation_Server/TrustNegotiator/CheckDownload.action");
         return SUCCESS;
     }
     
@@ -254,13 +254,7 @@ public class TrustNegotiatorAction extends ActionSupport{
         
         System.out.println("AC Generated: Telling client to check download.");
         setAction(TNActions.CHECK_DOWNLOAD);
-        setNext("https://" + ip + ":8443/Struts2_REU_Trust_Negotiation_Server/TrustNegotiator/TrustNegCheckDownload.action");
-        return SUCCESS;
-    }
-    
-    //TODO: IMPLEMENT
-    public String csrSigned()
-    {
+        setNext("https://" + ip + ":8443/Struts2_REU_Trust_Negotiation_Server/TrustNegotiator/CheckDownload.action");
         return SUCCESS;
     }
 

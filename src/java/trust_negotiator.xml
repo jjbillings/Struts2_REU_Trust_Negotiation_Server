@@ -20,39 +20,39 @@
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegIDCertsVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="verifiedIDCerts">
+        <action name="IDCertsVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="verifiedIDCerts">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegIDCertsUploaded" class="TrustNegotiationPackage.TrustNegotiatorAction" method="idCertsUploaded">
+        <action name="IDCertsUploaded" class="TrustNegotiationPackage.TrustNegotiatorAction" method="idCertsUploaded">
             <result name="success" type="json"/>
         </action>
                         
-        <action name="TrustNegACsVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="verifiedACs">
+        <action name="ACsVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="verifiedACs">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegACsUploaded" class="TrustNegotiationPackage.TrustNegotiatorAction" method="acsUploaded">
+        <action name="ACsUploaded" class="TrustNegotiationPackage.TrustNegotiatorAction" method="acsUploaded">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegIDCertsNotVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="failedToVerifyIDCerts">
+        <action name="IDCertsNotVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="failedToVerifyIDCerts">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegACsNotVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="failedToVerifyACs">
+        <action name="ACsNotVerified" class="TrustNegotiationPackage.TrustNegotiatorAction" method="failedToVerifyACs">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegAuthorizedAccess" class="TrustNegotiationPackage.TrustNegotiatorAction" method="authorizedAccess">
+        <action name="AuthorizedAccess" class="TrustNegotiationPackage.TrustNegotiatorAction" method="authorizedAccess">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegAccessDenied" class="TrustNegotiationPackage.TrustNegotiatorAction" method="accessDenied">
+        <action name="AccessDenied" class="TrustNegotiationPackage.TrustNegotiatorAction" method="accessDenied">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegCheckDownload" class="TrustNegotiationPackage.FileDownloadNegotiatorAction" method="checkDownload">
+        <action name="CheckDownload" class="TrustNegotiationPackage.FileDownloadNegotiatorAction" method="checkDownload">
             <result name="success" type="json">
                 <param name="excludeProperties">servletReq</param>
             </result>
@@ -61,15 +61,11 @@
             </result>
         </action>
         
-        <action name="TrustNegNeedCSR" class="TrustNegotiationPackage.TrustNegotiatorAction" method="requestCSR">
+        <action name="NeedCSR" class="TrustNegotiationPackage.TrustNegotiatorAction" method="requestCSR">
             <result name="success" type="json"/>
         </action>
         
-        <action name="TrustNegCSRSigned" class="TrustNegotiationPackage.TrustNegotiatorAction" method="csrSigned">
-            <result name="success" type="json"/>
-        </action>
-        
-        <action name="TrustNegACGenerated" class="TrustNegotiationPackage.TrustNegotiatorAction" method="acGenerated">
+        <action name="ACGenerated" class="TrustNegotiationPackage.TrustNegotiatorAction" method="acGenerated">
             <result name="success" type="json"/>
         </action>
     </package>
@@ -84,7 +80,7 @@
             
             <result name="success" type="redirectAction">
                 <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegIDCertsUploaded</param>
+                <param name="actionName">IDCertsUploaded</param>
             </result>
             <result name="failure">GeneralFailurePage.jsp</result>
         </action>
@@ -110,7 +106,7 @@
             
             <result name="success" type="redirectAction">
                 <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegACsUploaded</param>
+                <param name="actionName">ACsUploaded</param>
             </result>
             <result name="failure">GeneralFailurePage.jsp</result>
         </action>
@@ -186,7 +182,6 @@
                 <param name="contentDisposition">attachment;filename="${filename}"</param>
             </result>
         </action>
-        
     </package>
     
     <package name="CAModulePackage" namespace="/CAModule" extends="struts-default">
@@ -201,11 +196,11 @@
         <action name="VerifyIDCerts" class="CAModulePackage.CAAction" method="verifyIDCerts">
             <result name="success" type="redirectAction">
                 <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegIDCertsVerified</param>
+                <param name="actionName">IDCertsVerified</param>
             </result>
             <result name="failure" type="redirectAction">
                 <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegIDCertsNotVerified</param>
+                <param name="actionName">IDCertsNotVerified</param>
             </result>
         </action>
         
@@ -217,7 +212,7 @@
             </result>
             <result name="failure" type="redirectAction">
                 <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegNeedCSR</param>
+                <param name="actionName">NeedCSR</param>
             </result>
         </action>
         
@@ -233,8 +228,8 @@
 
         <action name="GenerateACs" class="AAModulePackage.AAAction" method="generateACs">
             <result name="success" type="redirectAction">
-                <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegCheckDownload</param>
+                <param name="namespace">/DataAccessModule</param>
+                <param name="actionName">GenerateEMR</param>
             </result>
         </action>
         
@@ -245,12 +240,17 @@
             </result>
             <result name="failure" type="redirectAction">
                 <param name="namespace">/TrustNegotiator</param>
-                <param name="actionName">TrustNegACsNotVerified</param>
+                <param name="actionName">ACsNotVerified</param>
             </result>
         </action>
     </package>
     
     <package name="DataAccessModulePackage" namespace="/DataAccessModule" extends="struts-default">
-        <!--Figure out how to authorize access to the data... -->
+        <action name="GenerateEMR" class="DataAccessModulePackage.DataAccessAction" method="generateEMR">
+            <result name="success" type="redirectAction">
+                <param name="namespace">/TrustNegotiator</param>
+                <param name="actionName">CheckDownload</param>
+            </result>
+        </action>
     </package>
 </struts>

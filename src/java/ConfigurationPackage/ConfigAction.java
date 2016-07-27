@@ -46,18 +46,18 @@ public class ConfigAction extends ActionSupport implements ServletRequestAware{
     public String setACFields()
     {
         String path = servletReq.getSession().getServletContext().getRealPath("/");
-        File dir = new File(path + "/ACFields");
+        File dir = new File(path + "/AA/ACFields");
         if(!dir.exists())
         {
             dir.mkdir();
         }
-        File f = new File(path+"/ACFields/ac.txt");
+        File f = new File(path+"/AA/ACFields/ac.txt");
         if(f.exists())
         {
             f.delete();
         }
         try {
-            PrintWriter writer = new PrintWriter(new FileWriter(path+"/ACFields/ac.txt"));
+            PrintWriter writer = new PrintWriter(new FileWriter(path+"/AA/ACFields/ac.txt"));
             writer.write(acRole + ", ");
             writer.write(acID + ", ");
             writer.write(getAcSubj() + ", ");
