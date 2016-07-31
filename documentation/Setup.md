@@ -38,7 +38,7 @@ keytool -export -alias my_alias -file test_cert.crt -keystore my_keystore.jks
 ```
 Enter your password and a certificate will be generated inside your current directory. This certificate is a copy of the one contained in the keystore. Give this copy to any device that you want to connect to the server over secure connection. Keytool is very useful, especially for examining certificates. A bunch of useful Keytool commands may be found [HERE](https://www.sslshopper.com/article-most-common-java-keytool-keystore-commands.html)
 
-###Configure HTTPS/SSl
+###Configure HTTPS/SSL
 Time to configure our Tomcat server to receive secure connections. Begin by navigating to ``` $CATALINA_HOME/conf/ ``` and editing the server configuration file with: ``` nano server.xml ```. Somewhere closer to the end of the file you should find something along the lines of:
 ```
 <Connector port="8080" protocol="HTTP/1.1"
@@ -53,19 +53,24 @@ Somewhere below this *Connector*, add a new *Connector*:
 	           keystorePass="my_password"
 	           clientAuth="false" sslProtocol="TLS" />
 ```
-Use your own filepath/password for the keystore. As an aside, if you enable *clientAuth*, then you will need to configure a *Truststore* of certificates that you will accept as means of authentication. We leave this disabled, as our clients (for the trust negotiation server) are not required to have had any previous contact with this system, and will thus not have any certificates to authenticate with.
+Use your own filepath/password for the keystore. As an aside, if you enable *clientAuth*, then you will need to configure a *Truststore* of certificates that you will accept as means of authentication. We leave this disabled, as our clients (for the trust negotiation server) are not required to have had any previous contact with this system, and thus will not have any certificates to authenticate with.
 Your Tomcat server is now configured for HTTPS/SSL. To test that everything's working, navigate in you web browser to: ``` https://localhost:8443 ``` and you should be greeted with a prompt telling you that the browser doesn't trust your Tomcat server. This is because the server's certificate is self-signed, not signed by a legitimate Certificate Authority.
 
 ###Deploy Application
-Finally we are ready to deploy the Trust Negotiation server. In your web browser navigate to either ```localhost:8080``` or ```https://localhost:8443```. Once you are at the Tomcat manager page, click the *Manager App* button on the right. On the next page, scroll down and select a ```WAR``` file to deploy. once selected, that's it, the Trust Negotiation is deployed!
+Finally we are ready to deploy the Trust Negotiation server. In your web browser navigate to either ```http://localhost:8080``` or ```https://localhost:8443```. Once you are at the Tomcat manager page, click the *Manager App* button on the right. On the next page, scroll down and select a ```WAR``` file to deploy. once selected, that's it, the Trust Negotiation is deployed!
 
 ###Configure Server
 One more step. We will need to quickly configure the Trust Negotiation application on the server. navigate to:
 ```
 https://localhost:8443/Struts2_REU_Trust_Negotiation_Server/
 ```
-you will be greeted by the configuration page. First, select the *Setup Everything* button. Once that's done, go back. If this is the *Root* hospital server, then technically you don't need to do anything else. However, if this is NOT the *Root* server, then we need to change a few things. First, start by uploading the *Root AA* and *Root CA* Certificates and Keys using the supplied prompts. Once that is done, set this system's Certificate/Attribute Authority Common Names. Once that is done you are all good to go. ~~Optionally~~ Recommended that you set some *AC Fields* for the next AC to be generated, otherwise the default values will be used. Also, you may now upload the certificates of any Trusted AC Issuers. These certificates will be requried when validating any credentials submitted by the client.
+you will be greeted by the configuration page. First, select the *Setup Everything* button. Once that's done, go back. If this is the *Root* hospital server, then technically you don't need to do anything else. However, if this is NOT the *Root* server, then we need to change a few things. First, start by uploading the *Root AA* and *Root CA* Certificates and Keys using the supplied prompts. Once that is done, set this system's Certificate/Attribute Authority Common Names. Once that is done you are all good to go. ~~Optionally~~ Recommended that you set some *AC Fields* for the next AC to be generated, otherwise the default values will be used. Also, you may now upload the certificates of any Trusted AC Issuers. These certificates will be requried when validating any credentials submitted by the client. For instance, if the user presents certificates signed by Hospital_A's AA to Hospital_B, then a copy of Hospital_A's AA certificate MUST be uploaded to Hospital_B beforehand.
 
+One final note. We have been configuring the server by connecting to our ```http://localhost:8080```. When connecting from the Android application, connect to the url:
+```
+https//:xxx.xx.xxx.xx:8443/Struts2_REU_Trust_Negotiation_Server/TrustNegotiator/InitiateConnection.action
+```
+substituting the IP address of the trust negotiation server.
 #####That's it! Your Trust Negotiation server is good to go!
 #####Any questions? 
 Contact Jack Billings: jjbillings@noctrl.edu
