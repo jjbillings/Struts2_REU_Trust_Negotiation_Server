@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public class DataAccessAction extends ActionSupport implements ServletRequestAwa
         try {
             PrintWriter writer = new PrintWriter(new FileWriter(emrFile));
             writer.write("EMR: THIS IS A TEST EMR.");
-            writer.write("-Jack Billings");
+            writer.write(" Generated on: " + (new Date()).toString());
             writer.close();
         } catch (IOException ex) {
             Logger.getLogger(ConfigAction.class.getName()).log(Level.SEVERE, null, ex);
